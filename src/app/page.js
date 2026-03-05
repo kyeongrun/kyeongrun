@@ -2,9 +2,12 @@ export default function Home() {
   const posts = [
     {
       id: 1,
-      title: "첫 번째 러닝 기록",
+      title: "#1 망원한강공원 러닝",
       date: "2026-03-01",
-      description: "오늘의 러닝 코스와 페이스를 기록했어요.",
+      /*description: "오늘의 러닝 코스와 페이스를 기록했어요.",*/
+      distance: "6.04km",
+      time: "00:35:09",
+      pace: "5:49/km",
       tag: "러닝기록"
     },
     {
@@ -62,6 +65,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-semibold text-gray-800 mb-1">{post.title}</h3>
               <p className="text-gray-500 text-sm">{post.description}</p>
+              <p className="text-gray-500 text-sm">{post.distance} • {post.time} • {post.pace}</p>
             </div>
           ))}
         </div>
