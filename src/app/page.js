@@ -76,6 +76,37 @@ export default function Home() {
         © 2026 김경런 · kimkyeong.run
       </footer>
 
+      <script>
+ window.aionChatbotConfig = { 
+  token: 'ifA1UJTsfV6XKKhX', 
+  isDev: true,
+  baseUrl: 'https://studio.abclab.ktds.com',
+  isOpen: false,               // 채팅열림설정
+  isStartButtonShow: false,     // 채팅시작버튼 보임설정
+  bgcolor: '#3D53FF',          // 버튼 배경색상
+  //openIcon: 'https://aion/aaa.jpg',  // 채팅을 열때 사용하는 아이콘
+  //closeIcon: 'https://aion/bbb.jpg', // 채팅을 닫을때 사용하는 아이콘
+  iconSize: '100%',            // 아이콘의 사이즈 (버튼의 사이즈 대비)
+  totalIconSize: '3rem',       // 버튼의 사이즈
+  totalBorderRadius: '1.5rem', // 버튼의 둥글기 정도
+  bottom: '1rem',              // 버튼의 하단기준 위치
+  right: '1rem',               // 버튼의 우측기준 위치
+  chatBottom : '5rem',         // 채팅의 하단기준 위치
+  chatRight : '1rem',          // 채팅의 우측기준 위치
+  zoom : 1.0,                  // 채팅창 크기확대
+  input: {                     // 채팅 시작전 변수값 설정
+                               // name: '박보검',
+                               // age: '25'
+  }
+ }
+</script>
+<script
+ src="https://studio.abclab.ktds.com/embed.min.js"
+ id="ifA1UJTsfV6XKKhX"
+ defer>
+</script>
     </main>
-  )
+    
+  ) 
 }
+
