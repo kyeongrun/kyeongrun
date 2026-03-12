@@ -1,5 +1,7 @@
 import { getPostBySlug, getAllPosts } from "../../../../lib/posts";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import Link from "next/link";
+import Comments from "../../../components/Comments";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -20,59 +22,72 @@ export default async function PostPage({ params }) {
   // slug 로 해당 글의 데이터를 가져와요
 
   return (
-    <main className="min-h-screen bg-gray-50">
-
-      {/* 헤더 */}
-      <header className="bg-white border-b px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl">🏃</span>
-          <span className="font-bold text-xl text-gray-800">김경런</span>
-        </div>
-        <nav className="flex gap-6 text-sm text-gray-500">
-          <a href="/" className="hover:text-black transition">홈</a>
-          <a href="/about" className="hover:text-black transition">소개</a>
-        </nav>
-      </header>
+    <main className="min-h-screen bg-[#FAF7F2]">
 
       {/* 글 내용 */}
-      <article className="max-w-2xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col lg:flex-row gap-8 items-start">
+        {/* max-w-6xl : 전체 너비를 넓게 설정 (기존 max-w-2xl 보다 넓음) */}
+        {/* flex-col : 모바일에서는 세로로 쌓기 */}
+        {/* lg:flex-row : PC(1024px 이상)에서는 가로로 나란히 */}
+        {/* gap-8 : 글과 댓글 사이 간격 */}
+        {/* items-start : 양쪽 컬럼이 위쪽 기준으로 정렬 */}
 
-        {/* 글 메타데이터 */}
-        <div className="mb-8">
-          <span className="text-xs font-semibold text-orange-500 bg-orange-50 px-2 py-1 rounded-full">
-            {post.tag}
-          </span>
-          <h1 className="text-3xl font-bold text-gray-800 mt-4 mb-2">{post.title}</h1>
-          <p className="text-gray-400 text-sm">{post.date}</p>
+        {/* 왼쪽: 글 본문 */}
+        <article className="w-full lg:w-1/2">
+          {/* w-full : 모바일에서는 전체 너비 */}
+          {/* lg:w-2/3 : PC에서는 전체의 2/3 너비 */}
 
-          {/* 러닝기록인 경우 distance, time, pace 표시 */}
-          {post.tag === "러닝기록" && (
-            <div className="flex gap-4 mt-4 bg-white border rounded-xl p-4">
-              <span className="text-sm text-gray-600">🏃 {post.distance}</span>
-              <span className="text-sm text-gray-600">⏱️ {post.time}</span>
-              <span className="text-sm text-gray-600">📈 {post.pace}</span>
-            </div>
-          )}
-        </div>
+          {/* 글 메타데이터 */}
+          <div className="mb-8">
+            <span className="text-xs font-semibold text-orange-500 bg-orange-50 px-2 py-1 rounded-full">
+              {post.tag}
+            </span>
+            <h1 className="text-3xl font-bold text-gray-800 mt-4 mb-2">{post.title}</h1>
+            <p className="text-gray-400 text-sm">{post.date}</p>
 
-        {/* 구분선 */}
-        <hr className="mb-8" />
+            {/* 러닝기록인 경우 distance, time, pace 표시 */}
+            {post.tag === "러닝기록" && (
+              <div className="flex gap-4 mt-4 bg-white border rounded-xl p-4">
+                <span className="text-sm text-gray-600">🏃 {post.distance}</span>
+                <span className="text-sm text-gray-600">⏱️ {post.time}</span>
+                <span className="text-sm text-gray-600">📈 {post.pace}</span>
+              </div>
+            )}
+          </div>
 
-        {/* Markdown 본문 */}
-        <div className="prose prose-gray max-w-none">
-          <MDXRemote source={post.content} />
-          {/* post.content = Markdown 본문 내용이에요
-              MDXRemote 가 Markdown 을 HTML 로 변환해서 보여줘요 */}
-        </div>
+          {/* 구분선 */}
+          <hr className="mb-8" />
 
-        {/* 목록으로 돌아가기 */}
-        <div className="mt-12">
-          <a href="/" className="text-orange-500 hover:underline text-sm">
-            ← 목록으로 돌아가기
-          </a>
-        </div>
+          {/* Markdown 본문 */}
+          <div className="prose prose-gray max-w-none">
+            <MDXRemote source={post.content} />
+          </div>
 
-      </article>
+          {/* 목록으로 돌아가기 */}
+          <div className="mt-12">
+            <Link href="/" className="text-orange-500 hover:underline text-sm">
+              ← 목록으로 돌아가기
+            </Link>
+          </div>
+
+        </article>
+
+        {/* 오른쪽: 댓글 */}
+        <aside className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
+          {/* lg:top-0 : 화면 맨 위에 고정 */}
+          {/* lg:h-screen : 화면 전체 높이 */}
+          {/* lg:overflow-y-auto : 댓글이 많아지면 댓글창 안에서만 스크롤 */}
+          <div className="p-6">
+            {/* 테두리(border), 배경(bg-white), 둥근모서리(rounded-xl) 전부 제거 */}
+            <Comments
+              pageId={slug}
+              pageTitle={post.title}
+              pageUrl={`https://kimkyeong.run/posts/${slug}`}
+            />
+          </div>
+        </aside>
+
+      </div>
 
       {/* 푸터 */}
       <footer className="text-center text-gray-400 text-sm py-8">
