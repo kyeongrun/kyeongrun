@@ -90,8 +90,10 @@ export default function AboutPage() {
               { label: "MBTI", value: "ESTP" },
               { label: "별자리", value: "사자자리 ♌" },
               { label: "혈액형", value: "B형" },
-              { label: "취미", value: "풋살, 러닝" },
-              { label: "애마", value: "자차 있음 🚗" },
+            { label: "취미", value: "풋살, 러닝" },
+            { label: "플랩풋볼 레벨", value: "아마추어 5" },
+            { label: "애마", value: "자차 있음 🚗" },
+            { label: "여자친구", value: "있음 ❤️" },
             ].map((item) => (
               <div key={item.label} className="flex flex-col gap-0.5">
                 <span className="text-xs text-gray-400">{item.label}</span>
