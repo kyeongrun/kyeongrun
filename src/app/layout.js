@@ -40,12 +40,11 @@ export default function RootLayout({ children }) {
               height={36}
             />
           </Link>
-
-          <nav className="flex gap-6 text-sm text-gray-600">
+          <nav className="flex items-center gap-6 text-sm text-gray-600">
             <Link href="/" className="hover:text-[#5bc96a] transition">홈</Link>
             <Link href="/about" className="hover:text-[#5bc96a] transition">소개</Link>
+            <Link href="/admin" className="bg-[#71D980] text-white px-4 py-1.5 rounded-full font-semibold hover:bg-[#5bc96a] transition">관리자</Link>
           </nav>
-
         </header>
 
         {/* 페이지 내용 - 배너+헤더 제외한 나머지 공간 전부 차지 */}
