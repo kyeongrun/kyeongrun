@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko" className="h-full">
       {/* h-full : html 태그도 높이 100%로 설정 */}
-      <body className="h-full flex flex-col overflow-hidden">
+      <body className="h-full flex flex-col">
         {/* h-full : 전체 높이 사용 */}
         {/* flex flex-col : 세로로 쌓기 */}
         {/* overflow-hidden : 전체 스크롤 제거 */}
@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
         </header>
 
         {/* 페이지 내용 - 배너+헤더 제외한 나머지 공간 전부 차지 */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-y-auto">
           {/* flex-1 : 남은 공간 전부 차지 */}
           {/* overflow-hidden : 이 영역 밖으로 넘치지 않게 */}
           {children}

@@ -17,13 +17,14 @@ export default function Comments({ pageId, pageTitle, pageUrl }) {
         const iframe = document.querySelector('#cusdis_thread iframe')
         const thread = document.getElementById('cusdis_thread')
 
-  if (iframe && thread) {
-    // ✅ cusdis_thread div 자체에 높이 강제 설정
-    thread.setAttribute('style', 'height: 1200px !important; overflow-y: scroll !important;')
-    // ✅ iframe은 그 안을 꽉 채우게
-    iframe.setAttribute('style', 'height: 100% !important; width: 100% !important; min-height: 1200px !important;')
-    clearInterval(fixHeight)
-  }
+        if (iframe && thread) {
+          const contentHeight = iframe.contentDocument.body.scrollHeight
+          thread.setAttribute('style', `height: ${contentHeight}px !important; overflow-y: scroll !important;`)
+          // ✅ 액자 크기 500px → 너무 크거나 작으면 숫자 조절
+          iframe.setAttribute('style', `width: 100% !important; height: ${contentHeight}px  !important;`)
+          // ✅ iframe은 액자보다 2배 크게 → 스크롤할 내용 생김
+          clearInterval(fixHeight)
+        }
       }, 500)
     }
 
@@ -35,19 +36,15 @@ export default function Comments({ pageId, pageTitle, pageUrl }) {
   }, [pageId])
 
   return (
-    <div className="p-6">
-      {/* ✅ wrapper에 고정 높이 + 스크롤 적용 */}
-
-        <div
-          id="cusdis_thread"
-          data-host="https://cusdis.com"
-          data-app-id="5c7da254-c237-4f51-96cc-aa1f8cffba94"
-          data-page-id={pageId}
-          data-page-url={pageUrl}
-          data-page-title={pageTitle}
-          style={{ height: '100%' }}
-          // ✅ cusdis_thread도 부모 높이 꽉 채우게
-        />
-      </div>
+    <div>
+      <div
+        id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="5c7da254-c237-4f51-96cc-aa1f8cffba94"
+        data-page-id={pageId}
+        data-page-url={pageUrl}
+        data-page-title={pageTitle}
+      />
+    </div>
   )
 }

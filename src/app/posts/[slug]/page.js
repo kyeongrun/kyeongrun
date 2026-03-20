@@ -72,7 +72,7 @@ export default async function PostPage({ params }) {
         </article>
 
         {/* 오른쪽: 댓글 */}
-        <aside className="w-full lg:w-1/2 lg:sticky lg:top-0">
+        <aside className="w-full lg:w-1/2 lg:sticky lg:top-8">
           <div className="p-6">
             <Comments
               pageId={slug}
