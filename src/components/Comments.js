@@ -26,7 +26,7 @@ export default function Comments({ pageId, pageTitle, pageUrl }) {
           clearInterval(fixHeight)
         }
       }, 500)
-    }
+    } 
 
     document.body.appendChild(script)
 

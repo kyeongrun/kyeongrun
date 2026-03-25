@@ -2,6 +2,7 @@ import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
 import BgmPlayer from "@/components/BgmPlayer";
+import ChatBot from "@/components/ChatBot";
 
 export const metadata = {
   title: "아이런",
@@ -55,6 +56,7 @@ export default function RootLayout({ children }) {
         </div>
 
         <BgmPlayer />
+        <ChatBot />
 
       </body>
     </html>
