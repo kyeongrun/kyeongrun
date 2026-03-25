@@ -1,4 +1,5 @@
 // Next.js App Router의 API Route 방식 (pages/api 아님!)
+import { convertSegmentPathToStaticExportFilename } from "next/dist/shared/lib/segment-cache/segment-value-encoding";
 import { NextResponse } from "next/server";
 
 // POST 요청만 처리
@@ -41,6 +42,10 @@ export async function POST(request) {
       messages: messages, // 대화 내역 전달
     }),
   });
+
+  //임시
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@");
+  console.log("API KEY 앞 20자리:" , process.env.ANTHROPIC_API_KEY?.slice(0, 20));
 
   const data = await response.json();
 
