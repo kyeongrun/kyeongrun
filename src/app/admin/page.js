@@ -28,7 +28,7 @@ export default function AdminLogin() {
       setError('비밀번호가 틀렸어요.')
       // 비밀번호 틀리면 에러 메시지 표시
     }
-  }
+  } 
 
   return (
     <main className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
