@@ -1,6 +1,8 @@
 import { getAllPosts } from "../../lib/posts";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic'; // 이 페이지는 항상 서버에서 렌더링
+
 export default async function Home() {
   const posts = await getAllPosts();
 
