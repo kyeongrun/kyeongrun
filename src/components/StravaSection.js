@@ -145,6 +145,56 @@ export default function StravaSection() {
         </div>
       </div>
 
+      {/* 누적 기록 */}
+      <div className="bg-white rounded-xl p-4 shadow-sm">
+        <h3 className="text-xs font-bold text-gray-800 mb-3">📊 누적 기록</h3>
+        <div className="grid grid-cols-3 gap-2 mb-4">
+          {[
+            { label: '총 거리', value: data ? `${data.totalKm}km` : '-' },
+            { label: '총 횟수', value: data ? `${data.totalRuns}회` : '-' },
+            { label: '총 고도', value: data ? `${data.totalElevation}m` : '-' },
+          ].map((s) => (
+            <div key={s.label} className="bg-[#FAF7F2] rounded-lg p-2 text-center">
+              <p className="text-[9px] text-gray-400">{s.label}</p>
+              <p className="text-sm font-bold text-gray-800">{s.value}</p>
+            </div>
+          ))}
+        </div>
+        {data?.monthly && (() => {
+          const maxKm = Math.max(...data.monthly.map((x) => x.km), 1)
+          const BAR_H = 64 // px
+          const thisMonth = new Date().toISOString().slice(0, 7)
+          const sorted = [...data.monthly].reverse()
+          return (
+            <>
+              <div className="flex items-end gap-1 mb-1" style={{ height: BAR_H }}>
+                {sorted.map((m) => {
+                  const px = Math.max((m.km / maxKm) * BAR_H, 3)
+                  const isThis = m.month === thisMonth
+                  return (
+                    <div key={m.month} className="flex-1 flex flex-col justify-end h-full relative">
+                      <span className="text-[7px] text-gray-500 text-center leading-tight">{m.km}km</span>
+                      <span className="text-[6px] text-gray-400 text-center leading-tight mb-0.5">{m.count}회</span>
+                      <div
+                        className={`w-full rounded-t ${isThis ? 'bg-[#FC4C02]' : 'bg-orange-200'}`}
+                        style={{ height: px }}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="flex gap-1">
+                {sorted.map((m) => (
+                  <div key={m.month} className="flex-1 text-center text-[7px] text-gray-400">
+                    {m.month.slice(5)}월
+                  </div>
+                ))}
+              </div>
+            </>
+          )
+        })()}
+      </div>
+
       {/* 하단: 최근 러닝 — 전체 폭 */}
       <div className="bg-white rounded-xl p-4 shadow-sm">
         <h2 className="text-sm font-bold text-gray-800 mb-3">🏃 최근 러닝</h2>
