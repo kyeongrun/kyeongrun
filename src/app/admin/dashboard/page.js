@@ -11,7 +11,7 @@ export default function Dashboard() {
     slug: '', title: '', content: '',
     tag: '', description: '',
     distance: '', time: '', pace: '',
-    location: '', crew: '',
+location: '', crew: '',
   })
   const [loading, setLoading] = useState(false)
   const [knowledge, setKnowledge] = useState([])  // knowledge 목록
