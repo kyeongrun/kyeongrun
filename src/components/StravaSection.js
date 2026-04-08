@@ -200,30 +200,57 @@ export default function StravaSection() {
                     </div>
                   ))}
                 </div>
-                {detail.splits?.length > 0 && (
-                  <>
-                    <h4 className="text-xs font-bold text-gray-700 mb-2">km 스플릿</h4>
-                    <div className="flex flex-col gap-1.5">
-                      {detail.splits.map((s) => {
-                        const isFast = detail.avgPaceSeconds > 0 && s.paceSeconds < detail.avgPaceSeconds
-                        const isSlow = detail.avgPaceSeconds > 0 && s.paceSeconds > detail.avgPaceSeconds + 15
-                        return (
-                          <div key={s.km} className="flex items-center gap-2">
-                            <span className="text-[10px] text-gray-400 w-7 shrink-0">{s.km}km</span>
-                            <div className="flex-1 bg-gray-100 rounded-full h-1.5">
-                              <div className={`h-1.5 rounded-full ${isFast ? 'bg-green-400' : isSlow ? 'bg-red-300' : 'bg-[#FC4C02]'}`}
-                                style={{ width: detail.avgPaceSeconds ? `${Math.min(100, Math.max(10, (detail.avgPaceSeconds / s.paceSeconds) * 100))}%` : '50%' }} />
+                {detail.splits?.length > 0 && (() => {
+                  const validSplits = detail.splits.filter((s) => s.paceSeconds > 0)
+                  const bestPace = Math.min(...validSplits.map((s) => s.paceSeconds))
+                  const worstPace = Math.max(...validSplits.map((s) => s.paceSeconds))
+                  const range = worstPace - bestPace || 1
+
+                  return (
+                    <>
+                      <h4 className="text-xs font-bold text-gray-700 mb-1">km 스플릿</h4>
+                      <p className="text-[9px] text-gray-400 mb-2">
+                        최고 {detail.splits.find((s) => s.paceSeconds === bestPace)?.paceStr} 기준
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        {detail.splits.map((s) => {
+                          const diffSec = s.paceSeconds - bestPace
+                          const isBest = diffSec === 0
+                          // 바 너비: 최고=100%, 최저=20%
+                          const barWidth = 100 - ((diffSec / range) * 80)
+                          const color = isBest
+                            ? 'bg-green-400'
+                            : diffSec <= 10 ? 'bg-[#FC4C02]'
+                            : diffSec <= 30 ? 'bg-yellow-400'
+                            : 'bg-red-400'
+
+                          const diffLabel = isBest
+                            ? '최고'
+                            : `+${Math.floor(diffSec / 60) > 0 ? Math.floor(diffSec / 60) + 'm' : ''}${diffSec % 60}s`
+
+                          return (
+                            <div key={s.km}>
+                              <div className="flex items-center justify-between mb-0.5">
+                                <span className="text-[10px] text-gray-500 font-medium">{s.km}km</span>
+                                <div className="flex items-center gap-2">
+                                  <span className={`text-[9px] font-semibold ${isBest ? 'text-green-500' : diffSec <= 10 ? 'text-orange-400' : diffSec <= 30 ? 'text-yellow-500' : 'text-red-400'}`}>
+                                    {diffLabel}
+                                  </span>
+                                  <span className="text-[10px] font-bold text-gray-700 w-12 text-right">{s.paceStr}</span>
+                                </div>
+                              </div>
+                              <div className="w-full bg-gray-100 rounded-full h-2">
+                                <div className={`h-2 rounded-full transition-all ${color}`}
+                                  style={{ width: `${barWidth}%` }} />
+                              </div>
                             </div>
-                            <span className={`text-[10px] w-12 text-right font-medium ${isFast ? 'text-green-500' : isSlow ? 'text-red-400' : 'text-gray-600'}`}>
-                              {s.paceStr}
-                            </span>
-                          </div>
-                        )
-                      })}
-                    </div>
-                    <p className="text-[9px] text-gray-400 mt-2">초록 = 평균보다 빠름 · 빨강 = 느림</p>
-                  </>
-                )}
+                          )
+                        })}
+                      </div>
+                      <p className="text-[9px] text-gray-400 mt-2">초록 = 최고 페이스 · 주황 ±10s · 노랑 ±30s · 빨강 그 이상</p>
+                    </>
+                  )
+                })()}
               </div>
             )}
           </div>
