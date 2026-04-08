@@ -85,26 +85,26 @@ export default function StravaSection() {
   return (
     <div className="flex flex-col gap-4">
 
-      {/* 상단: 프로필 카드 | 달력 — 가로 2분할 */}
+      {/* 프로필 | 달력 */}
       <div className="grid grid-cols-2 gap-4">
 
         {/* 프로필 카드 */}
         <div className="bg-white rounded-xl p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-3xl">{face}</span>
+            <span className="text-4xl">{face}</span>
             <div>
-              <p className="text-sm font-bold text-gray-900">김경런</p>
-              <p className="text-[10px] text-gray-400">{label}</p>
+              <p className="text-base font-bold text-gray-900">김경런</p>
+              <p className="text-xs text-gray-400">{label}</p>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="bg-[#FAF7F2] rounded-lg p-2 text-center">
-              <p className="text-[9px] text-gray-400">이번 달</p>
-              <p className="text-base font-bold text-[#FC4C02]">{data ? `${monthKm}km` : '-'}</p>
+              <p className="text-xs text-gray-400">이번 달</p>
+              <p className="text-lg font-bold text-[#FC4C02]">{data ? `${monthKm}km` : '-'}</p>
             </div>
             <div className="bg-[#FAF7F2] rounded-lg p-2 text-center">
-              <p className="text-[9px] text-gray-400">이번 주</p>
-              <p className="text-base font-bold text-gray-700">{data ? `${weekKm}km` : '-'}</p>
+              <p className="text-xs text-gray-400">이번 주</p>
+              <p className="text-lg font-bold text-gray-700">{data ? `${weekKm}km` : '-'}</p>
             </div>
           </div>
         </div>
@@ -112,15 +112,15 @@ export default function StravaSection() {
         {/* 달력 */}
         <div className="bg-white rounded-xl p-3 shadow-sm">
           <div className="flex items-center justify-between mb-2">
-            <button onClick={prevMonth} className="text-gray-400 hover:text-gray-700 w-5 text-center text-sm">‹</button>
-            <span className="text-[11px] font-bold text-gray-700">
+            <button onClick={prevMonth} className="text-gray-400 hover:text-gray-700 w-6 text-center text-base">‹</button>
+            <span className="text-xs font-bold text-gray-700">
               {month.year}.{String(month.month + 1).padStart(2, '0')}
             </span>
             <button onClick={nextMonth}
-              className={`w-5 text-center text-sm ${isCurrentMonth ? 'text-gray-200 cursor-default' : 'text-gray-400 hover:text-gray-700'}`}>›</button>
+              className={`w-6 text-center text-base ${isCurrentMonth ? 'text-gray-200 cursor-default' : 'text-gray-400 hover:text-gray-700'}`}>›</button>
           </div>
           <div className="grid grid-cols-7 mb-1">
-            {DOW.map((d) => <div key={d} className="text-center text-[8px] text-gray-400 font-medium">{d}</div>)}
+            {DOW.map((d) => <div key={d} className="text-center text-[10px] text-gray-400 font-medium">{d}</div>)}
           </div>
           <div className="grid grid-cols-7">
             {calDays.map((day, i) => {
@@ -131,13 +131,13 @@ export default function StravaSection() {
               return (
                 <div key={i} onClick={() => activity && openDetail(activity.id)}
                   className={`flex flex-col items-center py-0.5 rounded ${activity ? 'cursor-pointer hover:bg-orange-50' : ''}`}>
-                  <span className={`text-[9px] leading-tight flex items-center justify-center
-                    ${isToday ? 'bg-black text-white rounded-full w-4 h-4 text-[8px]' : ''}
+                  <span className={`text-[11px] leading-tight flex items-center justify-center
+                    ${isToday ? 'bg-black text-white rounded-full w-5 h-5 text-[10px]' : ''}
                     ${activity && !isToday ? 'font-bold text-[#FC4C02]' : ''}
                     ${!activity && !isToday ? 'text-gray-400' : ''}`}>
                     {day}
                   </span>
-                  {activity && <span className="text-[7px] text-orange-400 leading-none">{activity.km}</span>}
+                  {activity && <span className="text-[9px] text-orange-400 leading-none">{activity.km}</span>}
                 </div>
               )
             })}
@@ -147,7 +147,7 @@ export default function StravaSection() {
 
       {/* 누적 기록 */}
       <div className="bg-white rounded-xl p-4 shadow-sm">
-        <h3 className="text-xs font-bold text-gray-800 mb-3">📊 누적 기록</h3>
+        <h3 className="text-sm font-bold text-gray-800 mb-3">📊 누적 기록</h3>
         <div className="grid grid-cols-3 gap-2 mb-4">
           {[
             { label: '총 거리', value: data ? `${data.totalKm}km` : '-' },
@@ -155,14 +155,14 @@ export default function StravaSection() {
             { label: '총 고도', value: data ? `${data.totalElevation}m` : '-' },
           ].map((s) => (
             <div key={s.label} className="bg-[#FAF7F2] rounded-lg p-2 text-center">
-              <p className="text-[9px] text-gray-400">{s.label}</p>
+              <p className="text-xs text-gray-400">{s.label}</p>
               <p className="text-sm font-bold text-gray-800">{s.value}</p>
             </div>
           ))}
         </div>
         {data?.monthly && (() => {
           const maxKm = Math.max(...data.monthly.map((x) => x.km), 1)
-          const BAR_H = 64 // px
+          const BAR_H = 72
           const thisMonth = new Date().toISOString().slice(0, 7)
           const sorted = [...data.monthly].reverse()
           return (
@@ -173,8 +173,8 @@ export default function StravaSection() {
                   const isThis = m.month === thisMonth
                   return (
                     <div key={m.month} className="flex-1 flex flex-col justify-end h-full relative">
-                      <span className="text-[7px] text-gray-500 text-center leading-tight">{m.km}km</span>
-                      <span className="text-[6px] text-gray-400 text-center leading-tight mb-0.5">{m.count}회</span>
+                      <span className="text-[9px] text-gray-500 text-center leading-tight">{m.km}km</span>
+                      <span className="text-[8px] text-gray-400 text-center leading-tight mb-0.5">{m.count}회</span>
                       <div
                         className={`w-full rounded-t ${isThis ? 'bg-[#FC4C02]' : 'bg-orange-200'}`}
                         style={{ height: px }}
@@ -185,7 +185,7 @@ export default function StravaSection() {
               </div>
               <div className="flex gap-1">
                 {sorted.map((m) => (
-                  <div key={m.month} className="flex-1 text-center text-[7px] text-gray-400">
+                  <div key={m.month} className="flex-1 text-center text-[9px] text-gray-400">
                     {m.month.slice(5)}월
                   </div>
                 ))}
@@ -195,11 +195,11 @@ export default function StravaSection() {
         })()}
       </div>
 
-      {/* 하단: 최근 러닝 — 전체 폭 */}
+      {/* 최근 러닝 */}
       <div className="bg-white rounded-xl p-4 shadow-sm">
         <h2 className="text-sm font-bold text-gray-800 mb-3">🏃 최근 러닝</h2>
         {!data ? (
-          <p className="text-xs text-gray-400 text-center py-4">불러오는 중...</p>
+          <p className="text-sm text-gray-400 text-center py-4">불러오는 중...</p>
         ) : (
           <div className="grid grid-cols-2 gap-x-6">
             {data.recent.map((run) => (
@@ -207,12 +207,12 @@ export default function StravaSection() {
                 className="border-b py-2.5 cursor-pointer hover:bg-orange-50 rounded px-1 -mx-1 transition">
                 <div className="flex items-center justify-between gap-1">
                   <p className="text-xs font-semibold text-gray-800 truncate">{run.name}</p>
-                  <p className="text-[10px] text-gray-400 shrink-0">{run.date}</p>
+                  <p className="text-xs text-gray-400 shrink-0">{run.date}</p>
                 </div>
                 <div className="flex gap-2 mt-0.5">
-                  <span className="text-xs font-bold text-[#FC4C02]">{run.distance}km</span>
-                  <span className="text-[10px] text-gray-500">{run.time}</span>
-                  <span className="text-[10px] text-gray-500">{run.pace}/km</span>
+                  <span className="text-sm font-bold text-[#FC4C02]">{run.distance}km</span>
+                  <span className="text-xs text-gray-500">{run.time}</span>
+                  <span className="text-xs text-gray-500">{run.pace}/km</span>
                 </div>
               </div>
             ))}
@@ -245,7 +245,7 @@ export default function StravaSection() {
                     detail.calories ? { label: '칼로리', value: `${detail.calories}kcal` } : null,
                   ].filter(Boolean).map((s) => (
                     <div key={s.label} className="bg-[#FAF7F2] rounded-xl p-2.5 text-center">
-                      <p className="text-[10px] text-gray-400 mb-0.5">{s.label}</p>
+                      <p className="text-xs text-gray-400 mb-0.5">{s.label}</p>
                       <p className="text-sm font-bold text-gray-800">{s.value}</p>
                     </div>
                   ))}
@@ -255,38 +255,33 @@ export default function StravaSection() {
                   const bestPace = Math.min(...validSplits.map((s) => s.paceSeconds))
                   const worstPace = Math.max(...validSplits.map((s) => s.paceSeconds))
                   const range = worstPace - bestPace || 1
-
                   return (
                     <>
-                      <h4 className="text-xs font-bold text-gray-700 mb-1">km 스플릿</h4>
-                      <p className="text-[9px] text-gray-400 mb-2">
+                      <h4 className="text-sm font-bold text-gray-700 mb-1">km 스플릿</h4>
+                      <p className="text-xs text-gray-400 mb-2">
                         최고 {detail.splits.find((s) => s.paceSeconds === bestPace)?.paceStr} 기준
                       </p>
                       <div className="flex flex-col gap-2">
                         {detail.splits.map((s) => {
                           const diffSec = s.paceSeconds - bestPace
                           const isBest = diffSec === 0
-                          // 바 너비: 최고=100%, 최저=20%
                           const barWidth = 100 - ((diffSec / range) * 80)
-                          const color = isBest
-                            ? 'bg-green-400'
+                          const color = isBest ? 'bg-green-400'
                             : diffSec <= 10 ? 'bg-[#FC4C02]'
                             : diffSec <= 30 ? 'bg-yellow-400'
                             : 'bg-red-400'
-
                           const diffLabel = isBest
                             ? '최고'
                             : `+${Math.floor(diffSec / 60) > 0 ? Math.floor(diffSec / 60) + 'm' : ''}${diffSec % 60}s`
-
                           return (
                             <div key={s.km}>
                               <div className="flex items-center justify-between mb-0.5">
-                                <span className="text-[10px] text-gray-500 font-medium">{s.km}km</span>
+                                <span className="text-xs text-gray-500 font-medium">{s.km}km</span>
                                 <div className="flex items-center gap-2">
-                                  <span className={`text-[9px] font-semibold ${isBest ? 'text-green-500' : diffSec <= 10 ? 'text-orange-400' : diffSec <= 30 ? 'text-yellow-500' : 'text-red-400'}`}>
+                                  <span className={`text-xs font-semibold ${isBest ? 'text-green-500' : diffSec <= 10 ? 'text-orange-400' : diffSec <= 30 ? 'text-yellow-500' : 'text-red-400'}`}>
                                     {diffLabel}
                                   </span>
-                                  <span className="text-[10px] font-bold text-gray-700 w-12 text-right">{s.paceStr}</span>
+                                  <span className="text-xs font-bold text-gray-700 w-12 text-right">{s.paceStr}</span>
                                 </div>
                               </div>
                               <div className="w-full bg-gray-100 rounded-full h-2">
@@ -297,7 +292,7 @@ export default function StravaSection() {
                           )
                         })}
                       </div>
-                      <p className="text-[9px] text-gray-400 mt-2">초록 = 최고 페이스 · 주황 ±10s · 노랑 ±30s · 빨강 그 이상</p>
+                      <p className="text-xs text-gray-400 mt-2">초록 = 최고 페이스 · 주황 ±10s · 노랑 ±30s · 빨강 그 이상</p>
                     </>
                   )
                 })()}

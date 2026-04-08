@@ -24,7 +24,7 @@ async function fetchRSS(query) {
     next: { revalidate: 1800 },
   })
   if (!res.ok) throw new Error(`RSS ${res.status}`)
-  return parseRSS(await res.text()).slice(0, 8)
+  return parseRSS(await res.text()).slice(0, 7)
 }
 
 export async function GET() {
