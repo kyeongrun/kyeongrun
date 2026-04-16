@@ -20,6 +20,35 @@ function getUSMarketState() {
   return 'CLOSED'
 }
 
+async function fetchSamsung() {
+  const res = await fetch(
+    'https://query1.finance.yahoo.com/v8/finance/chart/005930.KS?interval=1d&range=5d',
+    {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        Accept: '*/*',
+      },
+      cache: 'no-store',
+    }
+  )
+
+  if (!res.ok) {
+    console.error('[prices] Samsung fetch status:', res.status)
+    throw new Error(`Samsung fetch failed: ${res.status}`)
+  }
+
+  const json = await res.json()
+  const meta = json.chart?.result?.[0]?.meta
+  if (!meta) throw new Error('Samsung meta not found')
+
+  const price = meta.regularMarketPrice
+  const prevClose = meta.chartPreviousClose ?? meta.previousClose ?? price
+  const change = price - prevClose
+  const changePercent = (change / prevClose) * 100
+
+  return { symbol: '005930.KS', price, change, changePercent }
+}
+
 async function fetchIREN() {
   // includePrePost=true 로 프리/애프터장 데이터 포함
   const res = await fetch(
@@ -97,7 +126,7 @@ async function fetchBTC() {
 }
 
 export async function GET() {
-  const results = await Promise.allSettled([fetchIREN(), fetchBTC()])
+  const results = await Promise.allSettled([fetchSamsung(), fetchIREN(), fetchBTC()])
 
   const data = results
     .filter((r) => r.status === 'fulfilled')
